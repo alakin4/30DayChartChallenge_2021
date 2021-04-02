@@ -64,27 +64,24 @@ p1<-ggplot(data = share_of_operating_revenue_2018,
   theme_void()+
   theme(
     legend.position = "none",
-    text = element_text(family = "Roboto-Regular",color = "#4B5556", size = 12),
+    text = element_text(family = "Roboto-Regular",color = "#4B5556"),
     plot.background = element_rect(fill = "transparent", linetype = 'blank'),
     panel.grid = element_blank(),
     plot.title = element_markdown(color = "black",
                                   family = "IBM Plex Sans",
-                              size = 22, 
+                              size = 28, 
                               face = "bold", 
                               hjust = 0.5),
-    plot.caption = element_markdown(color = "black",size = 10,hjust = 0.5)
+    plot.caption = element_markdown(color = "black",size = 14,hjust = 0.5)
   )
-
-p1
 
 p2<-ggplot()+
   geom_textbox(aes(x = 0.26,
                    y = 0.5), 
-               label = "In 2018, **network carriers**, <br>**value cariers**, and **ultra-LCC** <br>had **<span style='color:#1b9693'>70%</span>**, **<span style='color:#868b78'>25.3%</span>**, and **<span style='color:#bc833c'>4.1%</span>** 
-,<br>respectively.",
+               label = "In 2018, **network carriers**, <br>**value cariers**, and **ultra-LCC** <br>had **<span style='color:#1b9693'>70%</span>**, **<span style='color:#868b78'>25.3%</span>**, and **<span style='color:#bc833c'>4.1%</span>**,<br>respectively.",
                color = "black",
                width = unit(0.55, "npc"),
-               size = 6.5,
+               size = 9,
                fill = NA,
                box.colour = "transparent",
                hjust = 0, 
@@ -104,30 +101,32 @@ p2<-ggplot()+
 
 
 p3<-ggdraw() +
-  draw_line(x = c(0.449, 0.684), 
+  draw_line(x = c(0.44, 0.682), 
             y = c(0.56, 0.56), 
             size = 8.6, 
             color = "#1b9693", 
             lineend = "round") +
-  draw_line(x = c(0.309, 0.489), 
+  draw_line(x = c(0.306, 0.489), 
             y = c(0.5235, 0.5235), 
             size = 8.5, 
             color = "#a5a99b", 
             lineend = "round") +
-  draw_line(x = c(0.59, 0.730), 
+  draw_line(x = c(0.58, 0.722), 
             y = c(0.523, 0.523), 
             size = 8.5, 
             color = "#bc833c", 
             lineend = "round") +
   draw_plot(p2)
 
-p3
 
-
-p1 + inset_element(p3, 
+p_final<-p1 + inset_element(p3, 
                    0.0, 0, 1, 1,
                    align_to = "panel",
                    clip = TRUE)
+p_final+
+  ggsave(here::here("plots", "01_part-to-whole.png"), 
+         width = 12,
+         height = 12)
 
 
 
