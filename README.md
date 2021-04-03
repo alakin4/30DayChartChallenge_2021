@@ -10,3 +10,7 @@ My contributions to the [30DayChartChallenge](https://twitter.com/30DayChartChal
 ## Day 2
 
 ![](plots/02_pictogram.png)
+
+## Day 3
+
+![](plots/03_historical.png)
