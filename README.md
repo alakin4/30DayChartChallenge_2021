@@ -14,3 +14,7 @@ My contributions to the [30DayChartChallenge](https://twitter.com/30DayChartChal
 ## Day 3
 
 ![](plots/03_historical.png)
+
+## Day 4
+
+![](plots/04_margical.png)
