@@ -51,7 +51,7 @@ df_passengers_total<-df_passengers%>%
 
 #### Plot - slope#####
 
-ggplot(data = df_passengers_total,
+p2<-ggplot(data = df_passengers_total,
        aes(x = year,
            y = flights,
            color = type))+
@@ -62,30 +62,31 @@ ggplot(data = df_passengers_total,
              stroke = 1.1)+
   scale_fill_manual(values = lighten(c("#1b9693","#bc833c"),0.2))+
   scale_color_manual(values = darken(c("#1b9693","#bc833c"), 0.01))+
-  scale_x_continuous(breaks = c(2019, 2020))+
+  scale_x_continuous(breaks = c(2019, 2020),
+                     minor_breaks=NULL)+
   scale_y_continuous(breaks = c(0,df_passengers_total$flights),
                      limits = c(0,NA),
                      expand = expansion(mult = c(0, .1)),
-                     labels = unit_format(unit = "M",scale = 1e-6))+
-  labs(title = "Global passenger air travel plunged due to COVID-19",
-       subtitle = "The reduction in the number of flights in 2020 compared to 2019<br> 
-                   is more pronounced for **<span style='color:#bc833c'>international (-62.92%)</span>** than **<span style='color:#1b9693'>domestic (-22.99%)</span>** travel",
-       caption = "30DayChartChallenge #05 | **Data**: International Civil Aviation Organization | @kinenealan")+
-  #theme_void()+
+                     labels = unit_format(unit = "",scale = 1e-6))+
   theme(
     legend.position = "none",
-    panel.background = element_blank(),
+    plot.background = element_rect(fill = "transparent", linetype = 'blank'),
+    panel.background = element_rect(fill = "transparent"),
     text = element_text(family = "Roboto-Regular",
                         size =10,
                         color = "#4B5556"),
     axis.title = element_blank(),
+    #axis.title.y = element_text(size =18,
+    #                            family = "IBM Plex Sans"),
     axis.ticks.y = element_blank(),
     axis.ticks.x = element_line(color = darken("gray",0.5),
-                                size = 1),
+                                size = 1.5),
     panel.grid.major.y = element_line(linetype = "dotted",
                                       color = darken("gray",0.5)),
-    axis.line.x = element_line(color = darken("gray",0.5),
-                               size = 1),
+    panel.grid.major.x = element_line(color = darken("gray",0.5),
+                                      size  = 1.5),
+    #axis.line.x = element_line(color = darken("gray",0.5),
+    #                           size = 1),
     axis.text.y = element_text(margin = margin(r = 0),
                                size =18,
                                family = "IBM Plex Sans"
@@ -93,6 +94,37 @@ ggplot(data = df_passengers_total,
     axis.text.x = element_text(size =18,
                                family = "IBM Plex Sans",
                                margin = margin(t = 10)),
+    )
+
+p1<-ggplot()+
+  labs(title = "Global passenger air travel plunged due to COVID-19",
+       subtitle = "The reduction in the number of flights in 2020 compared to 2019<br> 
+                   is more pronounced for **<span style='color:#bc833c'>international (-62.92%)</span>** than **<span style='color:#1b9693'>domestic (-22.99%)</span>** travel",
+       caption = "30DayChartChallenge #05 | **Data**: International Civil Aviation Organization | @kinenealan")+
+  geom_richtext(aes(label = "**Flights<br>(Millions)**", 
+                    x = 0.28, 
+                    y = 0.98), 
+                size = 6,
+                lineheight = 0.9,
+                fill = NA,
+                hjust = 0.5, 
+                label.color = NA,
+                color = darken("gray",0.5))+
+  xlim(0, 1) + 
+  ylim(0, 1)+
+  theme_void()+
+  theme(
+    legend.position = "none",
+    plot.background = element_rect(fill = "transparent", linetype = 'blank'),
+    panel.background = element_blank(),
+    text = element_text(family = "Roboto-Regular",
+                        size =10,
+                        color = "#4B5556"),
+    axis.title = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.grid = element_blank(),
+    #axis.line.x = element_line(color = darken("gray",0.5),
+    #                           size = 1),
     plot.title = element_markdown(color = darken("gray",0.5),
                                   family = "IBM Plex Sans",
                                   size = 35, 
@@ -109,6 +141,11 @@ ggplot(data = df_passengers_total,
                                     size = 12,
                                     hjust = 0.5,
                                     margin = margin(t = 20)),
-    )+
+  )
+p_final<-p1 + inset_element(p2, 
+                            0.3, 0.1, 0.7, 0.95,
+                            align_to = "panel",
+                            clip = TRUE)
+p_final+
   ggsave(here::here("plots", "05_slope.png"), 
-         dpi = 320, width = 16, height = 12)
+          dpi = 320, width = 16, height = 12)
