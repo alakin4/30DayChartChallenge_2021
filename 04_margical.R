@@ -7,7 +7,6 @@ library(ragg)
 library(ggfx)
 library(glue)
 library(ggtext)
-#library(altText)
 
 #Unknown time to get magical idea
 ggplot() +
